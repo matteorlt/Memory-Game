@@ -1,0 +1,57 @@
+/* Style global */
+body {
+    font-family: "Segoe UI", sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Hero Section */
+  .hero-section {
+    background-image: url('images/bg-memo.png'); /* remplace par le vrai nom si différent */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Superposition d'un voile sombre pour améliorer la lisibilité du texte */
+  .hero-section .overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 80px 20px;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Section présentation */
+  section h2 {
+    font-weight: bold;
+  }
+  
+  section img {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  section img:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Boutons */
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  .btn-light:hover {
+    background-color: #f1f1f1;
+    color: #000;
+  }
+  
