@@ -1,108 +1,110 @@
-const usernameInput = document.getElementById('username');
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
-        const usernameError = document.getElementById('usernameError');
-        const emailError = document.getElementById('emailError');
-        const passwordError = document.getElementById('passwordError');
-        const usernameValidation = document.getElementById('usernameValidation');
-        const emailValidation = document.getElementById('emailValidation');
-        const passwordValidation = document.getElementById('passwordValidation');
-        const passwordStrengthBar = document.getElementById('passwordStrengthBar');
-        const passwordStrengthText = document.getElementById('passwordStrengthText');
-        const signupForm = document.getElementById('signupForm');
+const usernameInput = document.getElementById("username");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const usernameError = document.getElementById("usernameError");
+const emailError = document.getElementById("emailError");
+const passwordError = document.getElementById("passwordError");
+const usernameValidation = document.getElementById("usernameValidation");
+const emailValidation = document.getElementById("emailValidation");
+const passwordValidation = document.getElementById("passwordValidation");
+const passwordStrengthBar = document.getElementById("passwordStrengthBar");
+const passwordStrengthText = document.getElementById("passwordStrengthText");
+const signupForm = document.getElementById("signupForm");
+const buttonSubmit = document.getElementById("button-submit");
 
-        function validateUsername() {
-            if (usernameInput.value.trim() === '') {
-                usernameError.textContent = 'Veuillez entrer un nom d\'utilisateur.';
-                usernameValidation.textContent = '❗';
-                usernameValidation.className = 'validation-icon invalid';
-                return false;
-            } else {
-                usernameError.textContent = '';
-                usernameValidation.textContent = '✔️';
-                usernameValidation.className = 'validation-icon valid';
-                return true;
-            }
-        }
+buttonSubmit.disabled = true;
 
-        function validateEmail() {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(emailInput.value)) {
-                emailError.textContent = 'Rentrez un email valide.';
-                emailValidation.textContent = '❗';
-                emailValidation.className = 'validation-icon invalid';
-                return false;
-            } else {
-                emailError.textContent = '';
-                emailValidation.textContent = '✔️';
-                emailValidation.className = 'validation-icon valid';
-                return true;
-            }
-        }
+function updatePasswordStrength() {
+  const password = passwordInput.value;
+  let points = 0;
 
-        function updatePasswordStrength() {
-            const password = passwordInput.value;
-            let strength = 0;
-            const hasSymbol = /[^\w\s]/.test(password);
-            const hasNumber = /\d/.test(password);
-            const hasLetter = /[a-zA-Z]/.test(password);
+  // Vérification des critères
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumber = /\d/.test(password);
+  const hasSymbol = /[^\w\s]/.test(password);
+  const hasMinLength = password.length >= 6;
+  const hasMaxLength = password.length >= 9;
 
-            if (password.length >= 6) strength++;
-            if (hasSymbol) strength++;
-            if (hasNumber) strength++;
-            if (hasLetter) strength++;
+  // Calcul des points
+  if (hasUpperCase) points++;
+  if (hasNumber) points++;
+  if (hasLowerCase) points++;
+  if (hasSymbol) points++;
+  if (hasMinLength) points++;
+  if (points >= 5) {
+    if (hasMaxLength) points++;
+  }
 
-            let barWidth = '0%';
-            let barClass = '';
-            let strengthText = 'faible';
+  console.log(password);
+  console.log(points);
+  // Ajustement des barres et des textes de force
+  let strength = 0;
+  let barWidth = "0%";
+  let strengthText = "faible";
+  let barClass = "weak";
 
-            if (strength === 1) {
-                barWidth = '33%';
-                barClass = 'weak';
-            } else if (strength <= 3 && password.length >= 6) {
-                barWidth = '66%';
-                barClass = 'medium';
-                strengthText = 'moyen';
-            } else if (strength === 4 && password.length >= 6) {
-                barWidth = '100%';
-                barClass = 'strong';
-                strengthText = 'fort';
-            }
+  // Définition des paliers
+  if (points === 2) {
+    barWidth = "20%";
+    strengthText = "pas assez fort";
+    barClass = "weak";
+  } else if (points === 3) {
+    barWidth = "40%";
+    strengthText = "pas assez fort";
+    barClass = "weak";
+  } else if (points === 4) {
+    barWidth = "60%";
+    strengthText = "pas assez fort";
+    barClass = "weak";
+  } else if (points === 5) {
+    barWidth = "80%";
+    strengthText = "validation possible";
+    barClass = "medium";
+    
+  } else if (points === 6) {
+    barWidth = "100%";
+    strengthText = "fort";
+    barClass = "strong";
+  }
 
-            passwordStrengthBar.style.width = barWidth;
-            passwordStrengthBar.className = `password-strength-bar ${barClass}`;
-            passwordStrengthText.textContent = strengthText;
+  // Met à jour la barre de progression et le texte
+  passwordStrengthBar.style.width = barWidth;
+  passwordStrengthBar.className = `password-strength-bar ${barClass}`;
+  passwordStrengthText.textContent = strengthText;
 
-            const isValidPassword = password.length >= 6 && hasSymbol && hasNumber && hasLetter;
-            if (isValidPassword) {
-                passwordError.textContent = '';
-                passwordValidation.textContent = '✔️';
-                passwordValidation.className = 'validation-icon valid';
-                return true;
-            } else if (password.length > 0) {
-                passwordError.textContent = 'Au moins un symbole, un chiffre, ainsi que 6 caractères minimum.';
-                passwordValidation.textContent = '❗';
-                passwordValidation.className = 'validation-icon invalid';
-                return false;
-            } else {
-                passwordError.textContent = 'Au moins un symbole, un chiffre, ainsi que 6 caractères minimum.';
-                passwordValidation.textContent = '';
-                return false;
-            }
-        }
+  // Vérification du mot de passe pour l'activation du bouton de soumission
+  if (points >= 5) {
+    passwordValidation.textContent = "✔️";
+    passwordValidation.className = "validation-icon valid";
+    buttonSubmit.disabled = false;
+    document.getElementById("passwordError").hidden = true;
+    return true;
+    
+  } else {
+    passwordValidation.textContent = "❗";
+    passwordValidation.className = "validation-icon invalid";
+    buttonSubmit.disabled = true;
+    document.getElementById("passwordError").hidden = false;
+    return false;
+  }
+}
 
-        usernameInput.addEventListener('blur', validateUsername);
-        emailInput.addEventListener('blur', validateEmail);
-        passwordInput.addEventListener('input', updatePasswordStrength);
+// Écouteur d'événements pour la saisie du mot de passe
+passwordInput.addEventListener("input", updatePasswordStrength);
 
-        signupForm.addEventListener('submit', function(event) {
-            const isUsernameValid = validateUsername();
-            const isEmailValid = validateEmail();
-            const isPasswordValid = updatePasswordStrength();
+// Validation du formulaire
+const form = document.getElementById("signupForm");
 
-            if (!isUsernameValid || !isEmailValid || !isPasswordValid) {
-                event.preventDefault(); // Prevent form submission if any field is invalid
-            } else {
-                alert('Formulaire soumis avec succès!'); // Replace with your actual submission logic
-            }
-        });
+      form.addEventListener("submit", function (event) {
+        // Empêcher la soumission du formulaire pour éviter le rechargement de la page
+        event.preventDefault();
+
+        // Stocker les données dans le localStorage
+        localStorage.setItem("username", document.getElementById("username").value);
+        localStorage.setItem("email", document.getElementById("email").value);
+        localStorage.setItem("password", document.getElementById("password").value);
+
+        // Afficher un message de confirmation ou toute autre action
+        alert("Données enregistrées dans le localStorage!");
+      });
