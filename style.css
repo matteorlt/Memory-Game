@@ -84,3 +84,9 @@ body {
   font-size: 1.1rem;
   border-radius: 12px;
 }
+
+#score {
+  margin-left : 20px;
+  font-size : 48px;
+  font-weight: bold;
+}

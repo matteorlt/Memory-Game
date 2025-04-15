@@ -1,91 +1,87 @@
 $(document).ready(function () {
-  // Quand on clique sur le bouton, on démarre la partie
   $(".btn.btn-primary.custom-btn").on("click", function () {
-    startGame();
+    const selectedSize = $("#grid-size").val();
+    const [rows, cols] = selectedSize.split("x").map(Number);
+    startGame(rows, cols);
   });
 
-  // Gestion de la touche "espace" pour relancer le jeu
   $(document).on("keydown", function (e) {
-    if (e.key === " " || e.key === "Spacebar") { // Vérifie si la touche appuyée est Espace
+    if (e.key === " " || e.key === "Spacebar") {
       e.preventDefault();
-      restartGame();
+      const selectedSize = $("#grid-size").val();
+      const [rows, cols] = selectedSize.split("x").map(Number);
+      startGame(rows, cols);
     }
   });
 });
 
 let cardValues = [];
 let flippedCards = [];
+let countscore = 0;
+const imgList = [
+  "Ball.png", "Bands.png", "Bars.png", "Champi.png", "Flower.png",
+  "Hearth.png", "Leaves.png", "Star.png", "Waves.png", "Yellow_flower.png",
+  "apple.png", "Banana.png","broco.png","cerise.png", "Fraise.png", "piment.png"
+];
 
-// Fonction pour démarrer le jeu
-function startGame() {
-  console.log("start");
-  assignCards();
-  setupCardClicks();
-}
+function startGame(rows, cols) {
+  countscore = 0;
+  $("#score").text("Score : 0");
 
-// Fonction pour relancer le jeu
-function restartGame() {
-  console.log("Relance de la partie");
-  $(".img-cell").removeClass("flipped matched");
+  const totalCards = rows * cols;
+  if ((totalCards / 2) > imgList.length) {
+    alert("Pas assez d’images pour cette taille de grille !");
+    return;
+  }
 
-  flippedCards = [];
-  assignCards();  // Réaffecte les cartes mélangées
-  setupCardClicks();
-}
+  const selectedImages = imgList.slice(0, totalCards / 2);
+  cardValues = [...selectedImages, ...selectedImages];
+  cardValues.sort(() => Math.random() - 0.5);
 
-// Fonction pour assigner les valeurs des cartes
-function assignCards() {
-  cardValues = generateShuffledPairs();
-
-  $(".img-cell").each(function (index) {
-    $(this).data("card-value", cardValues[index]);
-    $(this).find("img").attr("src", "images/Background_cards.png");
-    $(this).removeClass("clicked matched");
+  const gameContainer = $("#game-container");
+  gameContainer.empty();
+  gameContainer.css({
+    display: "grid",
+    gridTemplateColumns: `repeat(${cols}, 1fr)`,
+    gridTemplateRows: `repeat(${rows}, 1fr)`
   });
+
+  cardValues.forEach((img, index) => {
+    const card = $(`
+      <div class="img-cell">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="images/Background_cards.png" alt="Back">
+          </div>
+          <div class="card-back">
+            <img src="images/${img}" alt="Card">
+          </div>
+        </div>
+      </div>
+    `);
+
+    card.data("card-value", img);
+    gameContainer.append(card);
+  });
+
+  setupCardClicks();
 }
 
-// Fonction pour générer les paires de cartes mélangées
-function generateShuffledPairs() {
-  let pairs = [];
-  for (let i = 0; i < 10; i++) {
-    pairs.push(i);
-    pairs.push(i);
-  }
-
-  // Mélange des cartes
-  for (let i = pairs.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    [pairs[i], pairs[j]] = [pairs[j], pairs[i]];
-  }
-
-  return pairs;
-}
-
-// Fonction pour gérer les clics sur les cartes
 function setupCardClicks() {
+  flippedCards = [];
+
   $(".img-cell").off("click").on("click", function () {
-    if ($(this).hasClass("flipped") || $(this).hasClass("matched") || flippedCards.length === 2) return;
+    if (
+      $(this).hasClass("flipped") ||
+      $(this).hasClass("matched") ||
+      flippedCards.length === 2
+    ) return;
+
+    countscore++;
+    $("#score").text(`Score : ${countscore}`);
 
     const card = $(this);
-    const imgIndex = card.data("card-value");
-    const imgList = [
-      "Ball.png",
-      "Bands.png",
-      "Bars.png",
-      "Champi.png",
-      "Flower.png",
-      "Hearth.png",
-      "Leaves.png",
-      "Star.png",
-      "Waves.png",
-      "Yellow_flower.png",
-    ];
-
-    // Animation de retournement de carte
     card.addClass("flipped");
-    setTimeout(() => {
-      card.find(".card-back img").attr("src", "images/" + imgList[imgIndex]);
-    }, 200); // L'image se charge après la transition d'animation
 
     flippedCards.push(card);
 
@@ -95,7 +91,6 @@ function setupCardClicks() {
   });
 }
 
-// Fonction pour vérifier si les cartes retournées sont identiques
 function checkForMatch() {
   const [card1, card2] = flippedCards;
   const val1 = card1.data("card-value");
@@ -106,14 +101,24 @@ function checkForMatch() {
     card2.addClass("matched");
     flippedCards = [];
 
-    if ($(".img-cell.matched").length === 20) {
+    if ($(".img-cell.matched").length === cardValues.length) {
       setTimeout(() => alert("🎉 Bravo, tu as gagné !"), 500);
+
+      const username = localStorage.getItem("username") || "Anonyme";
+      const score = countscore;
+      let highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+
+      highScores.push({ name: username, score });
+      highScores.sort((a, b) => a.score - b.score);
+      highScores = highScores.slice(0, 10);
+
+      localStorage.setItem("highScores", JSON.stringify(highScores));
     }
   } else {
     setTimeout(() => {
       card1.removeClass("flipped");
       card2.removeClass("flipped");
       flippedCards = [];
-    }, 1500); // Réinitialise après un délai
+    }, 1500);
   }
 }
