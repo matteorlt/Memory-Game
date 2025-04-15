@@ -33,12 +33,45 @@ body {
   overflow: hidden;
   border-radius: 4px;
   transition: transform 0.2s ease;
+  perspective: 1000px;
 }
 
 .img-cell img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+}
+
+.img-cell.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 4px;
+}
+
+.card-front img,
+.card-back img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-back {
+  transform: rotateY(180deg);
 }
 
 .img-cell:hover {
