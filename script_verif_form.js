@@ -1,52 +1,66 @@
 const usernameInput = document.getElementById("username");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
+
 const usernameError = document.getElementById("usernameError");
 const emailError = document.getElementById("emailError");
 const passwordError = document.getElementById("passwordError");
+
 const usernameValidation = document.getElementById("usernameValidation");
 const emailValidation = document.getElementById("emailValidation");
 const passwordValidation = document.getElementById("passwordValidation");
+
 const passwordStrengthBar = document.getElementById("passwordStrengthBar");
 const passwordStrengthText = document.getElementById("passwordStrengthText");
-const signupForm = document.getElementById("signupForm");
-const buttonSubmit = document.getElementById("button-submit");
+
+const signupForm = document.getElementById("signupForm").querySelector("form");
+const buttonSubmit = signupForm.querySelector("button[type='submit']");
 
 buttonSubmit.disabled = true;
 
-// Fonction de validation du nom d'utilisateur
+// Validation du nom d'utilisateur
 function validateUsername() {
-  if (usernameInput.value.trim() === "") {
+  const username = usernameInput.value.trim();
+
+  if (username === "") {
     usernameError.textContent = "Veuillez entrer un nom d'utilisateur.";
     usernameValidation.textContent = "❗";
     usernameValidation.className = "validation-icon invalid";
     return false;
   }
-  if (usernameInput.value.length >= 3) {
-    usernameError.textContent = "";
-    usernameValidation.textContent = "✔️";
-    usernameValidation.className = "validation-icon valid";
-    return true;
+
+  if (username.length < 3) {
+    usernameError.textContent = "Le nom d'utilisateur doit contenir au moins 3 caractères.";
+    usernameValidation.textContent = "❗";
+    usernameValidation.className = "validation-icon invalid";
+    return false;
   }
+
+  usernameError.textContent = "";
+  usernameValidation.textContent = "✔️";
+  usernameValidation.className = "validation-icon valid";
+  return true;
 }
 
-// Fonction de validation de l'email
+// Validation de l'email
 function validateEmail() {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(emailInput.value)) {
+  const email = emailInput.value.trim();
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!regex.test(email)) {
     emailError.textContent = "Rentrez un email valide.";
     emailValidation.textContent = "❗";
     emailValidation.className = "validation-icon invalid";
     return false;
-  } else {
-    emailError.textContent = "";
-    emailValidation.textContent = "✔️";
-    emailValidation.className = "validation-icon valid";
-    return true;
   }
+
+  emailError.textContent = "";
+  emailValidation.textContent = "✔️";
+  emailValidation.className = "validation-icon valid";
+  return true;
 }
 
-// Fonction de validation du mot de passe (sans appel récursif)
+// Validation du mot de passe et barre de force
 function validatePassword() {
   const password = passwordInput.value;
   let points = 0;
@@ -59,8 +73,8 @@ function validatePassword() {
   const hasMaxLength = password.length >= 9;
 
   if (hasUpperCase) points++;
-  if (hasNumber) points++;
   if (hasLowerCase) points++;
+  if (hasNumber) points++;
   if (hasSymbol) points++;
   if (hasMinLength) points++;
   if (points >= 5 && hasMaxLength) points++;
@@ -84,12 +98,14 @@ function validatePassword() {
     barClass = "weak";
   } else if (points === 5) {
     barWidth = "80%";
-    strengthText = "validation possible";
+    strengthText = "medium";
     barClass = "medium";
-  } else if (points === 6) {
+    buttonSubmit.disabled = false;
+  } else if (points >= 6) {
     barWidth = "100%";
     strengthText = "fort";
     barClass = "strong";
+    buttonSubmit.disabled = false;
   }
 
   passwordStrengthBar.style.width = barWidth;
@@ -97,44 +113,59 @@ function validatePassword() {
   passwordStrengthText.textContent = strengthText;
 
   if (points >= 5) {
+    passwordError.hidden = true;
     passwordValidation.textContent = "✔️";
     passwordValidation.className = "validation-icon valid";
-    passwordError.hidden = true;
     return true;
   } else {
+    passwordError.hidden = false;
     passwordValidation.textContent = "❗";
     passwordValidation.className = "validation-icon invalid";
-    passwordError.hidden = false;
     return false;
   }
 }
 
-// Vérifie si tout est bon
+// Vérifie tous les champs
 function checkAllFields() {
   const isUsernameValid = validateUsername();
   const isEmailValid = validateEmail();
   const isPasswordValid = validatePassword();
-  let listeinfos = [];
 
   buttonSubmit.disabled = !(isUsernameValid && isEmailValid && isPasswordValid);
 }
 
-// Ajout des écouteurs d'événements
-usernameInput.addEventListener("input", checkAllFields);
-emailInput.addEventListener("input", checkAllFields);
-passwordInput.addEventListener("input", checkAllFields);
-
-// Validation du formulaire
-signupForm.addEventListener("submit", function (event) {
-  event.preventDefault();
+// Gestion de la soumission du formulaire
+signupForm.addEventListener("submit", function (e) {
+  e.preventDefault();
 
   if (validateUsername() && validateEmail() && validatePassword()) {
-    listeinfos.push(localStorage.setItem("username", usernameInput.value));
-    listeinfos.push(localStorage.setItem("email", emailInput.value));
-    listeinfos.push(localStorage.setItem("password", passwordInput.value));
+    const listeinfos = JSON.parse(localStorage.getItem("listeinfos")) || [];
 
-    alert("Données enregistrées dans le localStorage!");
+    const alreadyExists = listeinfos.find(
+      (info) =>
+        info.username === usernameInput.value &&
+        info.email === emailInput.value
+    );
+
+    if (alreadyExists) {
+      alert("L'information existe déjà dans la liste");
+      return;
+    }
+
+    listeinfos.push({
+      username: usernameInput.value,
+      email: emailInput.value,
+      password: passwordInput.value,
+    });
+
+    localStorage.setItem("listeinfos", JSON.stringify(listeinfos));
+    alert("Données enregistrées dans le localStorage !");
   } else {
     alert("Veuillez remplir correctement tous les champs.");
   }
 });
+
+// Événements "input"
+usernameInput.addEventListener("input", checkAllFields);
+emailInput.addEventListener("input", checkAllFields);
+passwordInput.addEventListener("input", checkAllFields);
