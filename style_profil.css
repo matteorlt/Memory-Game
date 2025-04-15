@@ -1,0 +1,77 @@
+body {
+    background: linear-gradient(135deg, #a5a5a5, #151f2a);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .profile-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+  }
+
+  .profile-card {
+    background-color: #2d2f33;
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    animation: fadeInUp 0.8s ease-out;
+  }
+
+  .profile-card h1 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    color: #00d1b2;
+  }
+
+  .username {
+    font-size: 1.4rem;
+    color: #ccc;
+    margin-bottom: 30px;
+  }
+  .email {
+    font-size: 1.4rem;
+    color: #ccc;
+    margin-bottom: 30px;
+  }
+
+  .btn-logout {
+    background-color: #dc3545;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 8px;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-logout:hover {
+    background-color: #c82333;
+  }
+
+  footer {
+    background-color: #1a1a1a;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #aaa;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

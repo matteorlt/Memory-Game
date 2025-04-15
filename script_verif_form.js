@@ -159,7 +159,11 @@ signupForm.addEventListener("submit", function (e) {
     });
 
     localStorage.setItem("listeinfos", JSON.stringify(listeinfos));
-    alert("Données enregistrées dans le localStorage !");
+    document.getElementById("signupForm").style.display = "none";
+      document.getElementById("loginForm").style.display = "block";
+      switchModeButton.textContent = "S'inscrire";
+      document.getElementById("profil").style.display = "none";
+    alert("Inscription réussie !");
   } else {
     alert("Veuillez remplir correctement tous les champs.");
   }

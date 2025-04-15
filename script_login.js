@@ -21,10 +21,10 @@ loginForm.addEventListener("submit", (e) => {
   );
 
   if (existingInfo) {
-    alert("Connexion réussie !");
-    // Redirection ou action ici
-    // window.location.href = "game.html";
+    window.location.href = "profil.html";
+    document.getElementById("profil").style.display = "block";
     localStorage.setItem("username", username);
+    localStorage.setItem("email", existingInfo.email);
   } else {
     alert("Nom d'utilisateur ou mot de passe incorrect.");
   }
