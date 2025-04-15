@@ -26,6 +26,17 @@ loginForm.addEventListener("submit", (e) => {
     localStorage.setItem("username", username);
     localStorage.setItem("email", existingInfo.email);
   } else {
-    alert("Nom d'utilisateur ou mot de passe incorrect.");
+    shakeElement(document.querySelector("#loginshake"));
   }
 });
+
+function shakeElement(element) {
+  $(element).css("position", "relative"); // s'assurer que l'élément peut bouger
+
+  $(element)
+    .animate({ left: "-10px" }, 100)
+    .animate({ left: "10px" }, 100)
+    .animate({ left: "-10px" }, 100)
+    .animate({ left: "10px" }, 100)
+    .animate({ left: "0px" }, 100);
+}

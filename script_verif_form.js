@@ -148,7 +148,7 @@ signupForm.addEventListener("submit", function (e) {
     );
 
     if (alreadyExists) {
-      alert("L'information existe déjà dans la liste");
+      shakeElement(document.querySelector("#loginshake"));
       return;
     }
 
@@ -165,10 +165,20 @@ signupForm.addEventListener("submit", function (e) {
       document.getElementById("profil").style.display = "none";
     alert("Inscription réussie !");
   } else {
-    alert("Veuillez remplir correctement tous les champs.");
+    shakeElement(document.querySelector("#loginshake"));
   }
 });
 
+function shakeElement(element) {
+  $(element).css("position", "relative"); // s'assurer que l'élément peut bouger
+
+  $(element)
+    .animate({ left: "-10px" }, 100)
+    .animate({ left: "10px" }, 100)
+    .animate({ left: "-10px" }, 100)
+    .animate({ left: "10px" }, 100)
+    .animate({ left: "0px" }, 100);
+}
 // Événements "input"
 usernameInput.addEventListener("input", checkAllFields);
 emailInput.addEventListener("input", checkAllFields);
