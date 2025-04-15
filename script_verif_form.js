@@ -30,7 +30,8 @@ function validateUsername() {
   }
 
   if (username.length < 3) {
-    usernameError.textContent = "Le nom d'utilisateur doit contenir au moins 3 caractères.";
+    usernameError.textContent =
+      "Le nom d'utilisateur doit contenir au moins 3 caractères.";
     usernameValidation.textContent = "❗";
     usernameValidation.className = "validation-icon invalid";
     return false;
@@ -143,8 +144,7 @@ signupForm.addEventListener("submit", function (e) {
 
     const alreadyExists = listeinfos.find(
       (info) =>
-        info.username === usernameInput.value &&
-        info.email === emailInput.value
+        info.username === usernameInput.value && info.email === emailInput.value
     );
 
     if (alreadyExists) {

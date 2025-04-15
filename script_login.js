@@ -24,6 +24,7 @@ loginForm.addEventListener("submit", (e) => {
     alert("Connexion réussie !");
     // Redirection ou action ici
     // window.location.href = "game.html";
+    localStorage.setItem("username", username);
   } else {
     alert("Nom d'utilisateur ou mot de passe incorrect.");
   }

@@ -10,7 +10,10 @@
     />
     <link rel="stylesheet" href="formstyle.css" />
     <!-- Plugin de force du mot de passe -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ablanco/jquery.pwstrength.bootstrap@3/dist/css/pwstrength.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/ablanco/jquery.pwstrength.bootstrap@3/dist/css/pwstrength.css"
+    />
   </head>
 
   <body>
@@ -29,13 +32,21 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link active" href="index.html">Accueil</a>
+              <a class="nav-link" href="index.html">Accueil</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="login.html">Inscription/Connexion</a>
+              <a class="nav-link active" href="login.html"
+                >Inscription/Connexion</a
+              >
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="game.html">Game</a>
+              <a class="nav-link" href="game.html">Game</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="profil">Profil</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="logout">Deconnexion</a>
             </li>
           </ul>
         </div>
@@ -45,56 +56,96 @@
     <!-- Main -->
     <main class="my-5">
       <div class="container">
-
         <!-- Formulaire d'inscription (par défaut visible) -->
         <div id="signupForm">
           <h2 class="text-center mb-4">Inscrivez-vous</h2>
           <form novalidate>
             <div class="mb-3">
               <label for="username" class="form-label">Nom d'utilisateur</label>
-              <input type="text" class="form-control" id="username" name="username" minlength="3" />
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                name="username"
+                minlength="3"
+              />
               <div id="usernameError" class="error-message"></div>
               <span id="usernameValidation" class="validation-icon"></span>
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Entrez votre email</label>
-              <input type="email" class="form-control" id="email" name="email" />
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+              />
               <div id="emailError" class="error-message"></div>
               <span id="emailValidation" class="validation-icon"></span>
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Mot de passe</label>
-              <input type="password" class="form-control" id="password" name="password" />
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+              />
               <div id="passwordError" class="error-message">
                 Au moins un symbole, un chiffre, ainsi que 6 caractères minimum.
               </div>
               <div class="password-strength-container">
-                <div id="passwordStrengthBar" class="password-strength-bar"></div>
+                <div
+                  id="passwordStrengthBar"
+                  class="password-strength-bar"
+                ></div>
               </div>
-              <div id="passwordStrengthText" class="password-strength-text">faible</div>
+              <div id="passwordStrengthText" class="password-strength-text">
+                faible
+              </div>
               <span id="passwordValidation" class="validation-icon"></span>
             </div>
-            <button type="submit" class="btn btn-success w-100">S'inscrire</button>
+            <button type="submit" class="btn btn-success w-100">
+              S'inscrire
+            </button>
           </form>
         </div>
 
         <!-- Formulaire de connexion (caché par défaut) -->
-        <div id="loginForm" style="display: none;">
+        <div id="loginForm" style="display: none">
           <h2 class="text-center mb-4">Se connecter</h2>
           <form novalidate>
             <div class="mb-3">
-              <label for="login-username" class="form-label">Nom d'utilisateur</label>
-              <input type="text" class="form-control" id="login-username" name="username" required />
+              <label for="login-username" class="form-label"
+                >Nom d'utilisateur</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="login-username"
+                name="username"
+                required
+              />
               <div id="loginUsernameError" class="error-message"></div>
               <span id="loginUsernameValidation" class="validation-icon"></span>
             </div>
             <div class="mb-3">
-              <label for="login-password" class="form-label">Mot de passe</label>
-              <input type="password" class="form-control" id="login-password" name="password" required />
+              <label for="login-password" class="form-label"
+                >Mot de passe</label
+              >
+              <input
+                type="password"
+                class="form-control"
+                id="login-password"
+                name="password"
+                required
+              />
               <div id="loginPasswordError" class="error-message"></div>
               <span id="loginPasswordValidation" class="validation-icon"></span>
             </div>
-            <button type="submit" class="btn btn-success w-100">Se connecter</button>
+            <button type="submit" class="btn btn-success w-100">
+              Se connecter
+            </button>
           </form>
         </div>
 
@@ -102,7 +153,6 @@
         <button id="switch-mode" class="btn btn-primary btn-lg mt-4">
           Se connecter
         </button>
-
       </div>
     </main>
 
@@ -118,5 +168,6 @@
     <script src="script_verif_form.js"></script>
     <script src="script_switch.js"></script>
     <script src="script_login.js"></script>
+    <script src="script_localhost.js"></script>
   </body>
 </html>
