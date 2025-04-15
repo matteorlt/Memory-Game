@@ -47,7 +47,7 @@ function startGame(rows, cols) {
   });
 
   cardValues.forEach((img, index) => {
-    const card = $(`
+    const card = $(`  
       <div class="img-cell">
         <div class="card-inner">
           <div class="card-front">
@@ -106,13 +106,19 @@ function checkForMatch() {
 
       const username = localStorage.getItem("username") || "Anonyme";
       const score = countscore;
+      const gridSize = $("#grid-size").val(); // Taille de la grille
+      const date = new Date().toLocaleString(); // Date du score
+
       let highScores = JSON.parse(localStorage.getItem("highScores")) || [];
 
-      highScores.push({ name: username, score });
-      highScores.sort((a, b) => a.score - b.score);
-      highScores = highScores.slice(0, 10);
+      highScores.push({ name: username, score, gridSize, date });
+      highScores.sort((a, b) => a.score - b.score);  // Tri des scores par ordre croissant
+      highScores = highScores.slice(0, 10); // Conserver les 10 meilleurs scores
 
       localStorage.setItem("highScores", JSON.stringify(highScores));
+
+      // Sauvegarder la dernière partie jouée
+      localStorage.setItem("lastGame" + username, JSON.stringify(cardValues.map(img => ({ value: img, src: `images/${img}` }))));
     }
   } else {
     setTimeout(() => {

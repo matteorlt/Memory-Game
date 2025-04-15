@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -79,6 +79,8 @@
             <th>Rang</th>
             <th>Nom du joueur</th>
             <th>Score</th>
+            <th>Taille de la grille</th>
+            <th>Date</th> <!-- Nouvelle colonne pour la date -->
           </tr>
         </thead>
         <tbody>
@@ -117,6 +119,7 @@
           window.location.href = "login.html";
         });
 
+        // Affichage de la dernière partie jouée avec la date
         const loadedGame = JSON.parse(localStorage.getItem("lastGame" + username)) || [];
         const gameGrid = document.getElementById("last-game-grid");
 
@@ -133,6 +136,7 @@
           });
         }
 
+        // Affichage des meilleurs scores avec la date
         const scoreTableBody = document.querySelector("#score-table tbody");
         const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
 
@@ -143,6 +147,8 @@
               <td>${index + 1}</td>
               <td>${entry.name}</td>
               <td>${entry.score}</td>
+              <td>${entry.gridSize}</td>
+              <td>${entry.date}</td> <!-- Affichage de la date -->
             `;
             scoreTableBody.appendChild(row);
           });
