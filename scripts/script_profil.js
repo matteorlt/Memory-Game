@@ -1,40 +1,34 @@
-/**
- * Gère l'affichage du profil utilisateur, les informations personnelles et les meilleurs scores.
- * Met à jour les éléments du DOM en fonction des données stockées dans le localStorage.
- */
-function profil() {
-    document.addEventListener("DOMContentLoaded", function () {
-      const username = localStorage.getItem("username");
-      const displayUser = document.getElementById("username-display");
-      const email = localStorage.getItem("email");
-      const displayMail = document.getElementById("email-display");
-  
-      if (username) {
+document.addEventListener("DOMContentLoaded", function () {
+    const username = localStorage.getItem("username");
+    const displayUser = document.getElementById("username-display");
+    const email = localStorage.getItem("email");
+    const displayMail = document.getElementById("email-display");
+
+    if (username) {
         displayUser.innerText = "Profil de " + username;
-      } else {
+    } else {
         displayUser.innerText = "Aucun utilisateur connecté.";
-      }
-  
-      if (email) {
+    }
+
+    if (email) {
         displayMail.innerText = "Email : " + email;
-      } else {
+    } else {
         displayMail.innerText = "Erreur";
-      }
-  
-      document.getElementById("logoutBtn").addEventListener("click", () => {
+    }
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
         localStorage.removeItem("username");
         window.location.href = "login.html";
-      });
-  
-      // Affichage des meilleurs scores avec la date
-      const scoreTableBody = document.querySelector("#score-table tbody");
-      const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
-      const userScore = highScores.find(entry => entry.name === username);
-  
-      if (userScore) {
+    });
+
+    // Affichage des meilleurs scores avec la date
+    const scoreTableBody = document.querySelector("#score-table tbody");
+    const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+    const userScore = highScores.find(entry => entry.name === username);
+
+    if (userScore) {
         const row = document.createElement("tr");
         row.innerHTML = `
-<<<<<<< HEAD
     <td>${highScores.indexOf(userScore) + 1}</td>
     <td>${userScore.name}</td>
     <td>${userScore.score}</td>
@@ -42,19 +36,6 @@ function profil() {
     <td>${userScore.type}</td>
     <td>${userScore.date}</td>
   `;
-=======
-          <td>${highScores.indexOf(userScore) + 1}</td>
-          <td>${userScore.name}</td>
-          <td>${userScore.score}</td>
-          <td>${userScore.gridSize}</td>
-          <td>${userScore.type}</td>
-          <td>${userScore.date}</td>
-        `;
->>>>>>> f6dfb109331f7c0ec3998889437a43bd112d16e6
         scoreTableBody.appendChild(row);
-      }
-    });
-  }
-  
-  profil();
-  
+    }
+});

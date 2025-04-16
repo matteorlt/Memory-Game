@@ -20,11 +20,7 @@ buttonSubmit.disabled = true;
 
 const SECRET_KEY = "YOUR_SECRET_KEY"; // Clé secrète pour le cryptage AES
 
-/**
- * Valide le nom d'utilisateur, vérifie qu'il n'est pas vide et qu'il contient au moins 3 caractères.
- * Affiche un message d'erreur si la validation échoue.
- * @returns {boolean} Vrai si le nom d'utilisateur est valide, sinon faux.
- */
+// Validation du nom d'utilisateur
 function validateUsername() {
   const username = usernameInput.value.trim();
 
@@ -49,11 +45,7 @@ function validateUsername() {
   return true;
 }
 
-/**
- * Valide l'email en vérifiant si l'email respecte un format standard.
- * Affiche un message d'erreur si la validation échoue.
- * @returns {boolean} Vrai si l'email est valide, sinon faux.
- */
+// Validation de l'email
 function validateEmail() {
   const email = emailInput.value.trim();
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -71,11 +63,7 @@ function validateEmail() {
   return true;
 }
 
-/**
- * Valide le mot de passe et met à jour la barre de force du mot de passe.
- * Vérifie les critères de sécurité du mot de passe et affiche un message d'erreur si nécessaire.
- * @returns {boolean} Vrai si le mot de passe est valide, sinon faux.
- */
+// Validation du mot de passe et barre de force
 function validatePassword() {
   const password = passwordInput.value;
   let points = 0;
@@ -98,6 +86,7 @@ function validatePassword() {
   let barWidth = "0%";
   let strengthText = "";
   let barClass = "weak";
+
 
   if (points === 2) {
     barWidth = "20%";
@@ -142,9 +131,7 @@ function validatePassword() {
   }
 }
 
-/**
- * Vérifie tous les champs du formulaire et active ou désactive le bouton de soumission.
- */
+// Vérifie tous les champs
 function checkAllFields() {
   const isUsernameValid = validateUsername();
   const isEmailValid = validateEmail();
@@ -152,61 +139,46 @@ function checkAllFields() {
 
   buttonSubmit.disabled = !(isUsernameValid && isEmailValid && isPasswordValid);
 }
-<<<<<<< HEAD
 function validateForm(){
 // Gestion de la soumission du formulaire
 signupForm.addEventListener("submit", function (e) {
   e.preventDefault();
-=======
 
-/**
- * Gère la soumission du formulaire d'inscription.
- * Vérifie les informations et crypte le mot de passe avant de les sauvegarder.
- */
-function submitForm(){
-  signupForm.addEventListener("submit", function (e) {
-    e.preventDefault();
->>>>>>> f6dfb109331f7c0ec3998889437a43bd112d16e6
+  if (validateUsername() && validateEmail() && validatePassword()) {
+    const listeinfos = JSON.parse(localStorage.getItem("listeinfos")) || [];
 
-    if (validateUsername() && validateEmail() && validatePassword()) {
-      const listeinfos = JSON.parse(localStorage.getItem("listeinfos")) || [];
+    const alreadyExists = listeinfos.find(
+      (info) =>
+        info.username === usernameInput.value && info.email === emailInput.value
+    );
 
-      const alreadyExists = listeinfos.find(
-        (info) =>
-          info.username === usernameInput.value && info.email === emailInput.value
-      );
-
-      if (alreadyExists) {
-        shakeElement(document.querySelector("#loginshake"));
-        return;
-      }
-
-      // Crypter le mot de passe avant de le sauvegarder
-      const encryptedPassword = CryptoJS.AES.encrypt(passwordInput.value, SECRET_KEY).toString();
-
-      listeinfos.push({
-        username: usernameInput.value,
-        email: emailInput.value,
-        password: encryptedPassword,
-      });
-
-      localStorage.setItem("listeinfos", JSON.stringify(listeinfos));
-      document.getElementById("signupForm").style.display = "none";
-      document.getElementById("loginForm").style.display = "block";
-      switchModeButton.textContent = "S'inscrire";
-      document.getElementById("profil").style.display = "none";
-      alert("Inscription réussie !");
-    } else {
+    if (alreadyExists) {
       shakeElement(document.querySelector("#loginshake"));
+      return;
     }
-  });
-}
 
-/**
- * Applique une animation de secousse à un élément DOM pour signaler une erreur.
- */
+    // Crypter le mot de passe avant de le sauvegarder
+    const encryptedPassword = CryptoJS.AES.encrypt(passwordInput.value, SECRET_KEY).toString();
+
+    listeinfos.push({
+      username: usernameInput.value,
+      email: emailInput.value,
+      password: encryptedPassword,
+    });
+
+    localStorage.setItem("listeinfos", JSON.stringify(listeinfos));
+    document.getElementById("signupForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+    switchModeButton.textContent = "S'inscrire";
+    document.getElementById("profil").style.display = "none";
+    alert("Inscription réussie !");
+  } else {
+    shakeElement(document.querySelector("#loginshake"));
+  }
+});
+
 function shakeElement(element) {
-  $(element).css("position", "relative");
+  $(element).css("position", "relative"); // s'assurer que l'élément peut bouger
 
   $(element)
     .animate({ left: "-10px" }, 100)
@@ -217,8 +189,6 @@ function shakeElement(element) {
 }
 }
 validateForm();
-
-submitForm();
 
 // Événements "input"
 usernameInput.addEventListener("input", checkAllFields);
