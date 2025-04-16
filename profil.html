@@ -62,14 +62,6 @@
       </div>
     </div>
 
-    <!-- Dernière partie jouée -->
-    <div class="container mt-5">
-      <h2>Dernière partie jouée</h2>
-      <div class="row row-cols-5" id="last-game-grid">
-        <!-- Les cartes seront injectées ici -->
-      </div>
-    </div>
-
     <!-- Meilleurs scores -->
     <div class="container mt-5">
       <h2>Meilleurs Scores</h2>
@@ -80,7 +72,8 @@
             <th>Nom du joueur</th>
             <th>Score</th>
             <th>Taille de la grille</th>
-            <th>Date</th> <!-- Nouvelle colonne pour la date -->
+            <th>Date</th>
+            <!-- Nouvelle colonne pour la date -->
           </tr>
         </thead>
         <tbody>
@@ -95,66 +88,7 @@
     </footer>
 
     <!-- Scripts -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const username = localStorage.getItem("username");
-        const displayUser = document.getElementById("username-display");
-        const email = localStorage.getItem("email");
-        const displayMail = document.getElementById("email-display");
-
-        if (username) {
-          displayUser.innerText = "Profil de " + username;
-        } else {
-          displayUser.innerText = "Aucun utilisateur connecté.";
-        }
-
-        if (email) {
-          displayMail.innerText = "Email : " + email;
-        } else {
-          displayMail.innerText = "Erreur";
-        }
-
-        document.getElementById("logoutBtn").addEventListener("click", () => {
-          localStorage.removeItem("username");
-          window.location.href = "login.html";
-        });
-
-        // Affichage de la dernière partie jouée avec la date
-        const loadedGame = JSON.parse(localStorage.getItem("lastGame" + username)) || [];
-        const gameGrid = document.getElementById("last-game-grid");
-
-        if (gameGrid && Array.isArray(loadedGame)) {
-          loadedGame.forEach((cardData) => {
-            const cardDiv = document.createElement("div");
-            cardDiv.classList.add("col");
-            cardDiv.innerHTML = `
-              <div class="img-cell" data-card-value="${cardData.value}">
-                <img src="${cardData.src}" class="img-fluid" />
-              </div>
-            `;
-            gameGrid.appendChild(cardDiv);
-          });
-        }
-
-        // Affichage des meilleurs scores avec la date
-        const scoreTableBody = document.querySelector("#score-table tbody");
-        const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
-
-        if (scoreTableBody) {
-          highScores.forEach((entry, index) => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-              <td>${index + 1}</td>
-              <td>${entry.name}</td>
-              <td>${entry.score}</td>
-              <td>${entry.gridSize}</td>
-              <td>${entry.date}</td> <!-- Affichage de la date -->
-            `;
-            scoreTableBody.appendChild(row);
-          });
-        }
-      });
-    </script>
+    <script src="script_profil.js"></script>
     <script src="script_localhost.js"></script>
   </body>
 </html>

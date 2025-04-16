@@ -23,6 +23,23 @@ const imgList = [
   "Hearth.png", "Leaves.png", "Star.png", "Waves.png", "Yellow_flower.png",
   "apple.png", "Banana.png","broco.png","cerise.png", "Fraise.png", "piment.png"
 ];
+const scoreTableBody = document.querySelector("#score-table tbody");
+const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+
+if (scoreTableBody) {
+  highScores.forEach((entry, index) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${entry.name}</td>
+      <td>${entry.score}</td>
+      <td>${entry.gridSize}</td>
+      <td>${entry.date}</td> <!-- Affichage de la date -->
+    `;
+    scoreTableBody.appendChild(row);
+  });
+}
+
 
 function startGame(rows, cols) {
   countscore = 0;

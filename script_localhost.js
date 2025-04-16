@@ -1,5 +1,4 @@
 const username = localStorage.getItem("username");
-console.log(username);
 if (username !== null) {
     document.getElementById("profil").style.display = "block";
 }
