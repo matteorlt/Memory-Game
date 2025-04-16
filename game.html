@@ -55,9 +55,15 @@
     <div class="container text-center mt-4">
       <h1 class="text-white">Jeu de Memory</h1>
       <div class="d-flex justify-content-center align-items-center gap-3">
+        <select id="image-theme" class="form-select w-auto">
+          <option value="principal">Figure & Fruit</option>
+          <option value="dinosaures">Dinosaures</option>
+          <option value="animaux">Animaux</option>
+        </select>
         <select id="grid-size" class="form-select w-auto">
-          <option value="4x5">4 x 5</option>
+          <option value="3x4">3 x 4</option>
           <option value="4x4">4 x 4</option>
+          <option value="4x5">4 x 5</option>
           <option value="6x5">6 x 5</option>
         </select>
         <button class="btn btn-primary custom-btn">Lancer la partie</button>
@@ -77,6 +83,7 @@
                 <th>Nom du joueur</th>
                 <th>Score</th>
                 <th>Taille de la grille</th>
+                <th>Type de jeu</th>
                 <th>Date</th>
                 <!-- Nouvelle colonne pour la date -->
               </tr>
