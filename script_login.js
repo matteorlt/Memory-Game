@@ -7,7 +7,8 @@ let listeinfos = JSON.parse(localStorage.getItem("listeinfos")) || [];
 
 loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
-
+  localStorage.removeItem("username");
+  localStorage.removeItem("email");
   const username = loginUsernameInput.value.trim();
   const password = loginPasswordInput.value.trim();
 
@@ -24,6 +25,9 @@ loginForm.addEventListener("submit", (e) => {
     // Décryptage du mot de passe avec la même clé secrète
     try {
       const decryptedPassword = CryptoJS.AES.decrypt(existingInfo.password, "YOUR_SECRET_KEY").toString(CryptoJS.enc.Utf8);
+
+      // Afficher le mot de passe décrypté dans la console pour débogage
+      console.log("Mot de passe décrypté : ", decryptedPassword); // Ajoutez cette ligne pour afficher le mot de passe décrypté dans la console
 
       // Si le mot de passe décrypté est correct, on redirige
       if (decryptedPassword === password) {
