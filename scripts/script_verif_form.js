@@ -20,7 +20,11 @@ buttonSubmit.disabled = true;
 
 const SECRET_KEY = "YOUR_SECRET_KEY"; // Clé secrète pour le cryptage AES
 
-// Validation du nom d'utilisateur
+/**
+ * Valide le nom d'utilisateur, vérifie qu'il n'est pas vide et qu'il contient au moins 3 caractères.
+ * Affiche un message d'erreur si la validation échoue.
+ * @returns {boolean} Vrai si le nom d'utilisateur est valide, sinon faux.
+ */
 function validateUsername() {
   const username = usernameInput.value.trim();
 
@@ -45,7 +49,11 @@ function validateUsername() {
   return true;
 }
 
-// Validation de l'email
+/**
+ * Valide l'email en vérifiant si l'email respecte un format standard.
+ * Affiche un message d'erreur si la validation échoue.
+ * @returns {boolean} Vrai si l'email est valide, sinon faux.
+ */
 function validateEmail() {
   const email = emailInput.value.trim();
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -63,7 +71,11 @@ function validateEmail() {
   return true;
 }
 
-// Validation du mot de passe et barre de force
+/**
+ * Valide le mot de passe et met à jour la barre de force du mot de passe.
+ * Vérifie les critères de sécurité du mot de passe et affiche un message d'erreur si nécessaire.
+ * @returns {boolean} Vrai si le mot de passe est valide, sinon faux.
+ */
 function validatePassword() {
   const password = passwordInput.value;
   let points = 0;
@@ -86,7 +98,6 @@ function validatePassword() {
   let barWidth = "0%";
   let strengthText = "";
   let barClass = "weak";
-
 
   if (points === 2) {
     barWidth = "20%";
@@ -131,7 +142,9 @@ function validatePassword() {
   }
 }
 
-// Vérifie tous les champs
+/**
+ * Vérifie tous les champs du formulaire et active ou désactive le bouton de soumission.
+ */
 function checkAllFields() {
   const isUsernameValid = validateUsername();
   const isEmailValid = validateEmail();
@@ -140,47 +153,53 @@ function checkAllFields() {
   buttonSubmit.disabled = !(isUsernameValid && isEmailValid && isPasswordValid);
 }
 
-// Gestion de la soumission du formulaire
+/**
+ * Gère la soumission du formulaire d'inscription.
+ * Vérifie les informations et crypte le mot de passe avant de les sauvegarder.
+ */
 function submitForm(){
-signupForm.addEventListener("submit", function (e) {
-  e.preventDefault();
+  signupForm.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-  if (validateUsername() && validateEmail() && validatePassword()) {
-    const listeinfos = JSON.parse(localStorage.getItem("listeinfos")) || [];
+    if (validateUsername() && validateEmail() && validatePassword()) {
+      const listeinfos = JSON.parse(localStorage.getItem("listeinfos")) || [];
 
-    const alreadyExists = listeinfos.find(
-      (info) =>
-        info.username === usernameInput.value && info.email === emailInput.value
-    );
+      const alreadyExists = listeinfos.find(
+        (info) =>
+          info.username === usernameInput.value && info.email === emailInput.value
+      );
 
-    if (alreadyExists) {
+      if (alreadyExists) {
+        shakeElement(document.querySelector("#loginshake"));
+        return;
+      }
+
+      // Crypter le mot de passe avant de le sauvegarder
+      const encryptedPassword = CryptoJS.AES.encrypt(passwordInput.value, SECRET_KEY).toString();
+
+      listeinfos.push({
+        username: usernameInput.value,
+        email: emailInput.value,
+        password: encryptedPassword,
+      });
+
+      localStorage.setItem("listeinfos", JSON.stringify(listeinfos));
+      document.getElementById("signupForm").style.display = "none";
+      document.getElementById("loginForm").style.display = "block";
+      switchModeButton.textContent = "S'inscrire";
+      document.getElementById("profil").style.display = "none";
+      alert("Inscription réussie !");
+    } else {
       shakeElement(document.querySelector("#loginshake"));
-      return;
     }
-
-    // Crypter le mot de passe avant de le sauvegarder
-    const encryptedPassword = CryptoJS.AES.encrypt(passwordInput.value, SECRET_KEY).toString();
-
-    listeinfos.push({
-      username: usernameInput.value,
-      email: emailInput.value,
-      password: encryptedPassword,
-    });
-
-    localStorage.setItem("listeinfos", JSON.stringify(listeinfos));
-    document.getElementById("signupForm").style.display = "none";
-    document.getElementById("loginForm").style.display = "block";
-    switchModeButton.textContent = "S'inscrire";
-    document.getElementById("profil").style.display = "none";
-    alert("Inscription réussie !");
-  } else {
-    shakeElement(document.querySelector("#loginshake"));
-  }
-});
+  });
 }
 
+/**
+ * Applique une animation de secousse à un élément DOM pour signaler une erreur.
+ */
 function shakeElement(element) {
-  $(element).css("position", "relative"); // s'assurer que l'élément peut bouger
+  $(element).css("position", "relative");
 
   $(element)
     .animate({ left: "-10px" }, 100)
@@ -190,8 +209,8 @@ function shakeElement(element) {
     .animate({ left: "0px" }, 100);
 }
 
-
 submitForm();
+
 // Événements "input"
 usernameInput.addEventListener("input", checkAllFields);
 emailInput.addEventListener("input", checkAllFields);

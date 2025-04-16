@@ -1,11 +1,17 @@
+/**
+ * Permet de basculer entre les modes "Connexion" et "Inscription" avec une animation.
+ * Lorsque le bouton est cliqué, il alterne l'affichage des formulaires et change le texte du bouton.
+ */
 function switchMode() {
   const switchModeButton = document.getElementById("switch-mode");
   let count = 1;
+
   switchModeButton.addEventListener("click", () => {
     count++;
+
     // Animation de switch
     switchModeButton.classList.add("animate-switch");
-  
+
     // Attendez que l'animation soit terminée
     setTimeout(() => {
       // Switcher en mode connexion
@@ -18,7 +24,7 @@ function switchMode() {
         document.getElementById("signupForm").style.display = "block";
         switchModeButton.textContent = "Se connecter";
       }
-  
+
       // Supprimer l'animation de switch
       switchModeButton.classList.remove("animate-switch");
     }, 500);
