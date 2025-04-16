@@ -18,6 +18,8 @@ const buttonSubmit = signupForm.querySelector("button[type='submit']");
 
 buttonSubmit.disabled = true;
 
+const SECRET_KEY = "YOUR_SECRET_KEY"; // Clé secrète pour le cryptage AES
+
 // Validation du nom d'utilisateur
 function validateUsername() {
   const username = usernameInput.value.trim();
@@ -152,17 +154,20 @@ signupForm.addEventListener("submit", function (e) {
       return;
     }
 
+    // Crypter le mot de passe avant de le sauvegarder
+    const encryptedPassword = CryptoJS.AES.encrypt(passwordInput.value, SECRET_KEY).toString();
+
     listeinfos.push({
       username: usernameInput.value,
       email: emailInput.value,
-      password: passwordInput.value,
+      password: encryptedPassword,
     });
 
     localStorage.setItem("listeinfos", JSON.stringify(listeinfos));
     document.getElementById("signupForm").style.display = "none";
-      document.getElementById("loginForm").style.display = "block";
-      switchModeButton.textContent = "S'inscrire";
-      document.getElementById("profil").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+    switchModeButton.textContent = "S'inscrire";
+    document.getElementById("profil").style.display = "none";
     alert("Inscription réussie !");
   } else {
     shakeElement(document.querySelector("#loginshake"));
@@ -179,6 +184,7 @@ function shakeElement(element) {
     .animate({ left: "10px" }, 100)
     .animate({ left: "0px" }, 100);
 }
+
 // Événements "input"
 usernameInput.addEventListener("input", checkAllFields);
 emailInput.addEventListener("input", checkAllFields);
