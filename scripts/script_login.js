@@ -5,48 +5,58 @@ const loginPasswordInput = document.querySelector("#login-password");
 
 let listeinfos = JSON.parse(localStorage.getItem("listeinfos")) || [];
 
-loginForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  localStorage.removeItem("username");
-  localStorage.removeItem("email");
-  const username = loginUsernameInput.value.trim();
-  const password = loginPasswordInput.value.trim();
+/**
+ * Gère la validation du formulaire de connexion.
+ * Vérifie les champs, déchiffre le mot de passe et redirige si les identifiants sont corrects.
+ */
+function validatePassword() {
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
 
-  if (!username || !password) {
-    alert("Veuillez remplir tous les champs.");
-    return;
-  }
+    const username = loginUsernameInput.value.trim();
+    const password = loginPasswordInput.value.trim();
 
-  const existingInfo = listeinfos.find(
-    (info) => info.username === username
-  );
+    if (!username || !password) {
+      alert("Veuillez remplir tous les champs.");
+      return;
+    }
 
-  if (existingInfo) {
-    // Décryptage du mot de passe avec la même clé secrète
-    try {
-      const decryptedPassword = CryptoJS.AES.decrypt(existingInfo.password, "YOUR_SECRET_KEY").toString(CryptoJS.enc.Utf8);
+    const existingInfo = listeinfos.find(
+      (info) => info.username === username
+    );
 
-      // Afficher le mot de passe décrypté dans la console pour débogage
-      console.log("Mot de passe décrypté : ", decryptedPassword); // Ajoutez cette ligne pour afficher le mot de passe décrypté dans la console
+    if (existingInfo) {
+      try {
+        const decryptedPassword = CryptoJS.AES.decrypt(
+          existingInfo.password,
+          "YOUR_SECRET_KEY"
+        ).toString(CryptoJS.enc.Utf8);
 
-      // Si le mot de passe décrypté est correct, on redirige
-      if (decryptedPassword === password) {
-        window.location.href = "profil.html";
-        document.getElementById("profil").style.display = "block";
-        localStorage.setItem("username", username);
-        localStorage.setItem("email", existingInfo.email);
-      } else {
+        console.log("Mot de passe décrypté : ", decryptedPassword);
+
+        if (decryptedPassword === password) {
+          window.location.href = "profil.html";
+          document.getElementById("profil").style.display = "block";
+          localStorage.setItem("username", username);
+          localStorage.setItem("email", existingInfo.email);
+        } else {
+          shakeElement(document.querySelector("#loginshake"));
+        }
+      } catch (error) {
+        console.error("Erreur lors du décryptage du mot de passe:", error);
         shakeElement(document.querySelector("#loginshake"));
       }
-    } catch (error) {
-      console.error("Erreur lors du décryptage du mot de passe:", error);
+    } else {
       shakeElement(document.querySelector("#loginshake"));
     }
-  } else {
-    shakeElement(document.querySelector("#loginshake"));
-  }
-});
+  });
+}
 
+/**
+ * Applique une animation de secousse à un élément DOM pour signaler une erreur.
+ */
 function shakeElement(element) {
   $(element).css("position", "relative");
 
