@@ -5,6 +5,7 @@ const loginPasswordInput = document.querySelector("#login-password");
 
 let listeinfos = JSON.parse(localStorage.getItem("listeinfos")) || [];
 
+function validatePassword() {
 loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
   localStorage.removeItem("username");
@@ -46,6 +47,7 @@ loginForm.addEventListener("submit", (e) => {
     shakeElement(document.querySelector("#loginshake"));
   }
 });
+}
 
 function shakeElement(element) {
   $(element).css("position", "relative");

@@ -1,3 +1,4 @@
+function profil() {
 document.addEventListener("DOMContentLoaded", function () {
     const username = localStorage.getItem("username");
     const displayUser = document.getElementById("username-display");
@@ -38,3 +39,6 @@ document.addEventListener("DOMContentLoaded", function () {
         scoreTableBody.appendChild(row);
     }
 });
+}
+
+profil();

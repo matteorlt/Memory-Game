@@ -141,6 +141,7 @@ function checkAllFields() {
 }
 
 // Gestion de la soumission du formulaire
+function submitForm(){
 signupForm.addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -176,6 +177,7 @@ signupForm.addEventListener("submit", function (e) {
     shakeElement(document.querySelector("#loginshake"));
   }
 });
+}
 
 function shakeElement(element) {
   $(element).css("position", "relative"); // s'assurer que l'élément peut bouger
@@ -188,6 +190,8 @@ function shakeElement(element) {
     .animate({ left: "0px" }, 100);
 }
 
+
+submitForm();
 // Événements "input"
 usernameInput.addEventListener("input", checkAllFields);
 emailInput.addEventListener("input", checkAllFields);
