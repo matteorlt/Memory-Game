@@ -84,8 +84,9 @@ function validatePassword() {
 
   // Mise à jour de la barre
   let barWidth = "0%";
-  let strengthText = "faible";
+  let strengthText = "";
   let barClass = "weak";
+
 
   if (points === 2) {
     barWidth = "20%";
@@ -101,12 +102,12 @@ function validatePassword() {
     barClass = "weak";
   } else if (points === 5) {
     barWidth = "80%";
-    strengthText = "medium";
+    strengthText = "✔️";
     barClass = "medium";
     buttonSubmit.disabled = false;
   } else if (points >= 6) {
     barWidth = "100%";
-    strengthText = "fort";
+    strengthText = "✔️";
     barClass = "strong";
     buttonSubmit.disabled = false;
   }
@@ -116,11 +117,13 @@ function validatePassword() {
   passwordStrengthText.textContent = strengthText;
 
   if (points >= 5) {
+    emailError.textContent = "";
     passwordError.hidden = true;
     passwordValidation.textContent = "✔️";
     passwordValidation.className = "validation-icon valid";
     return true;
   } else {
+    passwordError.textContent = "Au moins un symbole, un chiffre, ainsi que 6 caractères minimum.";
     passwordError.hidden = false;
     passwordValidation.textContent = "❗";
     passwordValidation.className = "validation-icon invalid";
