@@ -8,7 +8,7 @@ body {
   
   /* Hero Section */
   .hero-section {
-    background-image: url('images/bg-memo.png'); /* remplace par le vrai nom si différent */
+    background-image: url('../images/bg-memo.png'); /* remplace par le vrai nom si différent */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
