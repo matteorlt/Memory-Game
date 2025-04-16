@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <td>${userScore.name}</td>
     <td>${userScore.score}</td>
     <td>${userScore.gridSize}</td>
+    <td>${userScore.type}</td>
     <td>${userScore.date}</td>
   `;
         scoreTableBody.appendChild(row);

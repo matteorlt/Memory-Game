@@ -18,10 +18,48 @@ $(document).ready(function () {
 let cardValues = [];
 let flippedCards = [];
 let countscore = 0;
-const imgList = [
-  "Ball.png", "Bands.png", "Bars.png", "Champi.png", "Flower.png",
-  "Hearth.png", "Leaves.png", "Star.png", "Waves.png", "Yellow_flower.png",
-  "apple.png", "Banana.png","broco.png","cerise.png", "Fraise.png", "piment.png"
+let currentTheme = "principal";
+const principal = [
+  "Ball.png",
+  "Bands.png",
+  "Bars.png",
+  "Champi.png",
+  "Flower.png",
+  "Hearth.png",
+  "Leaves.png",
+  "Star.png",
+  "Waves.png",
+  "Yellow_flower.png",
+  "apple.png",
+  "Banana.png",
+  "broco.png",
+  "cerise.png",
+  "Fraise.png",
+  "piment.png",
+];
+const dinosaures = [
+  "1.jpg",
+  "2.jpg",
+  "3.jpg",
+  "4.jpg",
+  "5.jpg",
+  "6.jpg",
+  "7.jpg",
+  "8.jpg",
+  "9.jpg",
+  "10.jpg",
+];
+const animaux = [
+  "ane.jpg",
+  "belier.jpg",
+  "brebis.jpg",
+  "bull.jpg",
+  "canard.jpg",
+  "chat.jpg",
+  "coq.jpg",
+  "dinde.jpg",
+  "dindon.jpg",
+  "mouton.jpg",
 ];
 const scoreTableBody = document.querySelector("#score-table tbody");
 const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
@@ -34,24 +72,40 @@ if (scoreTableBody) {
       <td>${entry.name}</td>
       <td>${entry.score}</td>
       <td>${entry.gridSize}</td>
-      <td>${entry.date}</td> <!-- Affichage de la date -->
+      <td>${entry.type}</td>
+      <td>${entry.date}</td>
     `;
     scoreTableBody.appendChild(row);
   });
 }
-
 
 function startGame(rows, cols) {
   countscore = 0;
   $("#score").text("Score : 0");
 
   const totalCards = rows * cols;
-  if ((totalCards / 2) > imgList.length) {
+  if (totalCards / 2 > principal.length) {
+    alert("Pas assez d’images pour cette taille de grille !");
+    return;
+  }
+  currentTheme = $("#image-theme").val();
+  let images;
+  if (currentTheme === "principal") {
+    images = principal;
+  } else if (currentTheme === "dinosaures") {
+    images = dinosaures;
+  } else if (currentTheme === "animaux") {
+    images = animaux;
+  } else {
+    images = principal; // Par défaut
+  }
+
+  if (totalCards / 2 > images.length) {
     alert("Pas assez d’images pour cette taille de grille !");
     return;
   }
 
-  const selectedImages = imgList.slice(0, totalCards / 2);
+  const selectedImages = images.slice(0, totalCards / 2);
   cardValues = [...selectedImages, ...selectedImages];
   cardValues.sort(() => Math.random() - 0.5);
 
@@ -60,7 +114,7 @@ function startGame(rows, cols) {
   gameContainer.css({
     display: "grid",
     gridTemplateColumns: `repeat(${cols}, 1fr)`,
-    gridTemplateRows: `repeat(${rows}, 1fr)`
+    gridTemplateRows: `repeat(${rows}, 1fr)`,
   });
 
   cardValues.forEach((img, index) => {
@@ -87,25 +141,28 @@ function startGame(rows, cols) {
 function setupCardClicks() {
   flippedCards = [];
 
-  $(".img-cell").off("click").on("click", function () {
-    if (
-      $(this).hasClass("flipped") ||
-      $(this).hasClass("matched") ||
-      flippedCards.length === 2
-    ) return;
+  $(".img-cell")
+    .off("click")
+    .on("click", function () {
+      if (
+        $(this).hasClass("flipped") ||
+        $(this).hasClass("matched") ||
+        flippedCards.length === 2
+      )
+        return;
 
-    countscore++;
-    $("#score").text(`Score : ${countscore}`);
+      countscore++;
+      $("#score").text(`Score : ${countscore}`);
 
-    const card = $(this);
-    card.addClass("flipped");
+      const card = $(this);
+      card.addClass("flipped");
 
-    flippedCards.push(card);
+      flippedCards.push(card);
 
-    if (flippedCards.length === 2) {
-      checkForMatch();
-    }
-  });
+      if (flippedCards.length === 2) {
+        checkForMatch();
+      }
+    });
 }
 
 function checkForMatch() {
@@ -128,14 +185,19 @@ function checkForMatch() {
 
       let highScores = JSON.parse(localStorage.getItem("highScores")) || [];
 
-      highScores.push({ name: username, score, gridSize, date });
-      highScores.sort((a, b) => a.score - b.score);  // Tri des scores par ordre croissant
+      highScores.push({ name: username, score, gridSize, date, type: currentTheme });
+      highScores.sort((a, b) => a.score - b.score); // Tri des scores par ordre croissant
       highScores = highScores.slice(0, 10); // Conserver les 10 meilleurs scores
 
       localStorage.setItem("highScores", JSON.stringify(highScores));
 
       // Sauvegarder la dernière partie jouée
-      localStorage.setItem("lastGame" + username, JSON.stringify(cardValues.map(img => ({ value: img, src: `images/${img}` }))));
+      localStorage.setItem(
+        "lastGame" + username,
+        JSON.stringify(
+          cardValues.map((img) => ({ value: img, src: `images/${img}` }))
+        )
+      );
     }
   } else {
     setTimeout(() => {

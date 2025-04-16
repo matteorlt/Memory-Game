@@ -139,7 +139,7 @@ function checkAllFields() {
 
   buttonSubmit.disabled = !(isUsernameValid && isEmailValid && isPasswordValid);
 }
-
+function validateForm(){
 // Gestion de la soumission du formulaire
 signupForm.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -187,6 +187,8 @@ function shakeElement(element) {
     .animate({ left: "10px" }, 100)
     .animate({ left: "0px" }, 100);
 }
+}
+validateForm();
 
 // Événements "input"
 usernameInput.addEventListener("input", checkAllFields);
