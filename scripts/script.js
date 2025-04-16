@@ -19,6 +19,9 @@ let cardValues = [];
 let flippedCards = [];
 let countscore = 0;
 let currentTheme = "principal";
+const scoreTableBody = document.querySelector("#score-table tbody");
+const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+
 const principal = [
   "Ball.png",
   "Bands.png",
@@ -61,8 +64,6 @@ const animaux = [
   "dindon.jpg",
   "mouton.jpg",
 ];
-const scoreTableBody = document.querySelector("#score-table tbody");
-const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
 
 if (scoreTableBody) {
   highScores.forEach((entry, index) => {
