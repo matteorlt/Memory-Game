@@ -11,7 +11,7 @@
     />
     <link rel="stylesheet" href="styles/style.css" />
   </head>
-  <body>
+  <body style="overflow: hidden;">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
@@ -27,7 +27,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link active" href="#">Accueil</a>
+              <a class="nav-link" href="index.html">Accueil</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="login.html">Inscription/Connexion</a>
@@ -37,10 +37,10 @@
             </li>
             <li class="nav-item">
               <a
-                class="nav-link"
+                class="nav-link active"
                 style="display: none"
                 id="profil"
-                href="profil.html"
+                href="#"
                 >Profil</a
               >
             </li>
@@ -52,39 +52,41 @@
       </div>
     </nav>
 
-    <!-- Contenu Profil -->
-    <div class="profile-container">
-      <div class="profile-card">
-        <h1>Bienvenue !</h1>
-        <p class="username" id="username-display">Chargement du profil...</p>
-        <p class="email" id="email-display">Chargement du mail...</p>
-        <button class="btn-logout" id="logoutBtn">Se déconnecter</button>
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="profile-card mx-auto">
+          <h1 class="display-4">Bienvenue !</h1>
+          <p class="lead" id="username-display">Chargement du profil...</p>
+          <p class="lead" id="email-display">Chargement du mail...</p>
+          <button class="btn-logout" id="logoutBtn">Se déconnecter</button>
+        </div>
       </div>
     </div>
 
     <!-- Meilleurs scores -->
     <div class="container mt-5">
       <h2>Meilleurs Scores</h2>
-      <table class="table table-dark table-striped mt-3" id="score-table">
-        <thead>
-          <tr>
-            <th>Rang</th>
-            <th>Nom du joueur</th>
-            <th>Score</th>
-            <th>Taille de la grille</th>
-            <th>Thème</th>
-            <th>Date</th>
-            <!-- Nouvelle colonne pour la date -->
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Les scores vont s'afficher ici -->
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table class="table table-dark table-striped mt-3" id="score-table">
+          <thead>
+            <tr>
+              <th>Rang</th>
+              <th>Nom du joueur</th>
+              <th>Score</th>
+              <th>Taille de la grille</th>
+              <th>Type de jeu</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Les scores vont s'afficher ici -->
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- Footer -->
-    <footer class="text-center mt-5 mb-3">
+    <footer class="text-center">
       &copy; 2025 Memory — Créé avec ❤️ par Mattéo
     </footer>
 
