@@ -1,10 +1,3 @@
-document.addEventListener('keydown', function(event) {
-    // Empêcher les touches Up (flèche vers le haut) et Down (flèche vers le bas) de défiler la page
-    if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-      event.preventDefault();
-    }
-  });
-
 // Global Variables
 var DIRECTION = {
 	IDLE: 0,
@@ -177,6 +170,8 @@ var Game = {
 				if (this.ball.y <= this.player.y + this.player.height && this.ball.y + this.ball.height >= this.player.y) {
 					this.ball.x = (this.player.x + this.ball.width);
 					this.ball.moveX = DIRECTION.RIGHT;
+
+					beep1.play();
 				}
 			}
 
@@ -185,6 +180,8 @@ var Game = {
 				if (this.ball.y <= this.paddle.y + this.paddle.height && this.ball.y + this.ball.height >= this.paddle.y) {
 					this.ball.x = (this.paddle.x - this.ball.width);
 					this.ball.moveX = DIRECTION.LEFT;
+
+					beep1.play();
 				}
 			}
 		}
@@ -206,6 +203,7 @@ var Game = {
 				this.ball.speed += 1;
 				this.round += 1;
 
+				beep3.play();
 			}
 		}
 		// Check to see if the paddle/AI has won the round.
@@ -346,6 +344,8 @@ var Game = {
 		this.turn = loser;
 		this.timer = Date.now();
 		victor.score++;
+
+		beep2.play();
 	},
 
 	_turnDelayIsOver: function() {

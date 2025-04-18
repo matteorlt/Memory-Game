@@ -17,15 +17,6 @@ body {
     text-align: center;
   }
   
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(12, 30px);
-    grid-template-rows: repeat(12, 30px);
-    gap: 1px;
-    margin-top: 20px;
-    text-align: center;
-  }
-  
   #custom-title {
     font-size: 5rem;
     font-weight: bolder;
