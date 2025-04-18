@@ -191,13 +191,6 @@ function checkForMatch() {
 
       localStorage.setItem("highScores", JSON.stringify(highScores));
 
-      // Sauvegarder la dernière partie jouée
-      localStorage.setItem(
-        "lastGame" + username,
-        JSON.stringify(
-          cardValues.map((img) => ({ value: img, src: `images/${img}` }))
-        )
-      );
     }
   } else {
     setTimeout(() => {
