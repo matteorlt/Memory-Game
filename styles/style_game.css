@@ -1,6 +1,7 @@
 body {
   background: linear-gradient(135deg, #a5a5a5, #151f2a);
   font-family: Arial, sans-serif;
+  caret-color: transparent !important;
 }
 
 .grid-box {
