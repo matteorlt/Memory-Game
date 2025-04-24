@@ -53,6 +53,7 @@ Un jeu Memory développé en HTML, CSS et JavaScript, où le but est de retrouve
 ## 🙋‍♂️ Auteur
 
 Mattéo
+
 Projet réalisé dans le cadre de ma formation de développeur web.
 
 ---
