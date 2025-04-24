@@ -18,7 +18,7 @@ Un jeu Memory développé en HTML, CSS et JavaScript, où le but est de retrouve
 
 1. Clone ce dépôt ou télécharge-le :
    ```bash
-   git clone https://github.com/ton-matteorlt/Project1.git
+   git clone https://github.com/matteorlt/Memory-Game.git
    ```
 2. Ouvre le fichier `index.html` dans ton navigateur préféré.
 3. Joue ! 😄
